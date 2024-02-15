@@ -25,3 +25,5 @@ To integrate the 'groupmate Product Picker' in your legacy or custom Shopify the
 ### Custom CSS / Styling
 
 You can completly disable the default CSS by setting `disable_app_css` to `false` and then bring your own styling in the format of your liking.
+
+You can also find some pre-built CSS snippets to adjust the styling to your personal preferences in the [CSS-Folder](css)
