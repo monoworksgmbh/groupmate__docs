@@ -26,80 +26,91 @@
 		if only_available_products
 			assign group = product.metafields.prm_mvp.group_ref.value | where: 'available', true
 		endif
+
+		# VALIDATION
+		assign member_ids = group | map: 'id'
+
+		if member_ids contains product.id
+			assign is_valid = true
+		else
+			assign is_valid = false
+		endif
 	-%}
 
-	{% if show_label %}
-		<label class="mw_groupmate__label">
-			{{- ui_data.group_option_title -}}
-		</label>
-	{% endif %}
+	{% if is_valid %}
+		{% if show_label %}
+			<label class="mw_groupmate__label">
+				{{- ui_data.group_option_title -}}
+			</label>
+		{% endif %}
 
-	<ul
-		class="mw_groupmate__swatchlist --{{ ui_data.group_display_style }} --{{ sort_order }}"
-		style="--swatch_size: {{ swatch_size }}rem"
-	>
-		{%- for product in group -%}
-			{%- assign this_data = product.metafields.prm_mvp.ui_data.value -%}
+		<ul
+			class="mw_groupmate__swatchlist --{{ ui_data.group_display_style }} --{{ sort_order }}"
+			style="--swatch_size: {{ swatch_size }}rem"
+		>
+			{%- for product in group -%}
+				{%- assign this_data = product.metafields.prm_mvp.ui_data.value -%}
 
-			<li
-				{% if product == parent_product %}
-					class="--active"
-				{% endif %}
-			>
-				{% case ui_data.group_display_style %}
-					{% when 'color_swatch' %}
-						{% comment %} // COLOR SWATCH {% endcomment %}
-						<a
-							href="{{ product.url | within: collection }}"
-							style="color: {{ this_data.swatch_color }}"
-							title="{{ this_data.swatch_title }}"
-						>
-							&nbsp;
-						</a>
+				<li
+					{% if product == parent_product %}
+						class="--active"
+					{% endif %}
+				>
+					{% case ui_data.group_display_style %}
+						{% when 'color_swatch' %}
+							{% comment %} // COLOR SWATCH {% endcomment %}
+							<a
+								href="{{ product.url | within: collection }}"
+								style="color: {{ this_data.swatch_color }}"
+								title="{{ this_data.swatch_title }}"
+							>
+								&nbsp;
+							</a>
 
-						{% if show_swatch_titles %}
-							<span class="title">
-								{{- this_data.swatch_title -}}
-							</span>
-						{% endif %}
-
-					{% when 'image_swatch' %}
-						{% comment %} // IMAGE SWATCH {% endcomment %}
-						<a
-							href="{{ product.url | within: collection }}"
-							title="{{ this_data.swatch_title }}"
-						>
-							{% if product.featured_image %}
-								<img
-									src="{{ product.featured_image | image_url: width: 60, height: 60 }}"
-									alt="{{ this_data.swatch_title }}"
-									width="60"
-									height="60"
-									loading="lazy"
-								>
-							{% else %}
-								<span class="image_placeholder"></span>
+							{% if show_swatch_titles %}
+								<span class="title">
+									{{- this_data.swatch_title -}}
+								</span>
 							{% endif %}
-						</a>
 
-						{% if show_swatch_titles %}
-							<span class="title">
-								{{- this_data.swatch_title -}}
-							</span>
-						{% endif %}
+						{% when 'image_swatch' %}
+							{% comment %} // IMAGE SWATCH {% endcomment %}
+							<a
+								href="{{ product.url | within: collection }}"
+								title="{{ this_data.swatch_title }}"
+							>
+								{% if product.featured_image %}
+									<img
+										src="{{ product.featured_image | image_url: width: 60, height: 60 }}"
+										alt="{{ this_data.swatch_title }}"
+										width="60"
+										height="60"
+										loading="lazy"
+									>
+								{% else %}
+									<span class="image_placeholder"></span>
+								{% endif %}
+							</a>
 
-					{% when 'button' %}
-						{% comment %} // BUTTON {% endcomment %}
-						<a
-							href="{{ product.url | within: collection }}"
-							title="{{ this_data.swatch_title }}"
-						>
-							<span>{{ this_data.swatch_title }}</span>
-						</a>
-				{% endcase %}
-			</li>
-		{%- endfor -%}
-	</ul>
+							{% if show_swatch_titles %}
+								<span class="title">
+									{{- this_data.swatch_title -}}
+								</span>
+							{% endif %}
+
+						{% when 'button' %}
+							{% comment %} // BUTTON {% endcomment %}
+							<a
+								href="{{ product.url | within: collection }}"
+								title="{{ this_data.swatch_title }}"
+							>
+								<span>{{ this_data.swatch_title }}</span>
+							</a>
+					{% endcase %}
+				</li>
+			{%- endfor -%}
+		</ul>
+	{% endif %}
 </div>
 
 {% unless disable_app_css %}
