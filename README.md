@@ -13,14 +13,14 @@ To integrate the 'groupmate Product Picker' in your legacy or custom Shopify the
 
 ### Available Settings
 
-| Field Name              | Data Type |
-| ----------------------- | --------- |
-| swatch_size             | integer   |
-| show_label              | boolean   |
-| show_swatch_titles      | boolean   |
-| disable_app_css         | boolean   |
-| only_available_products | boolean   |
-| sort_order              | string    |
+| Field Name              | Data Type                         |
+| ----------------------- | --------------------------------- |
+| swatch_size             | integer                           |
+| show_label              | boolean                           |
+| show_swatch_titles      | boolean                           |
+| disable_app_css         | boolean                           |
+| only_available_products | boolean                           |
+| sort_order              | 'order_default' OR 'order_active' |
 
 ### Custom CSS / Styling
 
